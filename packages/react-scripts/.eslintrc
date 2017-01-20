@@ -6,6 +6,7 @@
   },
   "rules": {
     "semi": ["error", "never"],
-    "arrow-parens": ["error", "always"]
+    "arrow-parens": ["error", "always"],
+    "no-bitwise": "off"
   }
 }
