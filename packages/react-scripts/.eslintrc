@@ -3,5 +3,8 @@
   "extends": "airbnb",
   "globals": {
     "window": true
+  },
+  "rules": {
+    "semi": ["error", "never"]
   }
 }
