@@ -133,7 +133,11 @@ module.exports = {
           /\.css$/,
           /\.scss$/,
           /\.json$/,
-          /\.svg$/
+          /\.svg$/,
+          /\.woff$/,
+          /\.woff2$/,
+          /\.[ot]tf$/,
+          /\.eot$/
         ],
         loader: 'url',
         query: {
@@ -141,6 +145,11 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]'
         }
       },
+      // Font loaders
+      { test: /\.woff$/, loader: 'url?limit=65000&mimetype=application/font-woff&name=font/[name].[ext]' },
+      { test: /\.woff2$/, loader: 'url?limit=65000&mimetype=application/font-woff2&name=font/[name].[ext]' },
+      { test: /\.[ot]tf$/, loader: 'url?limit=65000&mimetype=application/octet-stream&name=font/[name].[ext]' },
+      { test: /\.eot$/, loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=font/[name].[ext]' },
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
@@ -184,6 +193,12 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]'
         }
       }
+    ]
+  },
+  sassLoader: {
+    includePaths: [
+      paths.appStyles,
+      paths.appFonts,
     ]
   },
   // @remove-on-eject-begin
