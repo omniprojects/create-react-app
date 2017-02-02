@@ -177,7 +177,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style!css?importLoaders=2!postcss!sass?sourceMap'
+        loader: 'style!css?importLoaders=3!postcss!resolve-url-loader!sass?sourceMap'
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
@@ -194,6 +194,12 @@ module.exports = {
         }
       }
     ]
+  },
+  resolveLoader: {
+    fallback: path.resolve(__dirname + "/node_modules")
+  },
+  resolveUrlLoader: {
+    root: paths.appStyles,
   },
   sassLoader: {
     includePaths: [
