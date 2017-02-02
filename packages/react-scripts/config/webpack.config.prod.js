@@ -137,8 +137,13 @@ module.exports = {
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
+          /\.scss$/,
           /\.json$/,
-          /\.svg$/
+          /\.svg$/,
+          /\.woff$/,
+          /\.woff2$/,
+          /\.[ot]tf$/,
+          /\.eot$/
         ],
         loader: 'url',
         query: {
@@ -146,6 +151,11 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]'
         }
       },
+      // Font loaders
+      { test: /\.woff$/, loader: 'url?limit=65000&mimetype=application/font-woff&name=font/[name].[ext]' },
+      { test: /\.woff2$/, loader: 'url?limit=65000&mimetype=application/font-woff2&name=font/[name].[ext]' },
+      { test: /\.[ot]tf$/, loader: 'url?limit=65000&mimetype=application/octet-stream&name=font/[name].[ext]' },
+      { test: /\.eot$/, loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=font/[name].[ext]' },
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
@@ -175,6 +185,11 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style', 'css?importLoaders=1!postcss')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('style', 'css?importLoaders=2!postcss!sass?sourceMap')
+        // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+      },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
@@ -189,6 +204,12 @@ module.exports = {
           name: 'static/media/[name].[hash:8].[ext]'
         }
       }
+    ]
+  },
+  sassLoader: {
+    includePaths: [
+      paths.appStyles,
+      paths.appFonts,
     ]
   },
   // @remove-on-eject-begin
