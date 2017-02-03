@@ -19,9 +19,11 @@
     "no-param-reassign": "off",
     "no-plusplus": "off",
     "no-undef": "off",
+    "no-underscore-dangle": "off",
 
     "react/forbid-prop-types": "off",
     "react/jsx-closing-bracket-location": [1, "after-props"],
+    "react/no-danger": "off",
     "react/no-unescaped-entities": "off",
     "react/prefer-stateless-function": "off"
   }
