@@ -86,7 +86,10 @@ module.exports = {
     // We placed these paths second because we want `node_modules` to "win"
     // if there are any conflicts. This matches Node resolution mechanism.
     // https://github.com/facebookincubator/create-react-app/issues/253
-    modules: ['node_modules'].concat(paths.nodePaths),
+    modules: [
+      paths.appSrc,
+      'node_modules'
+    ].concat(paths.nodePaths),
     // These are the reasonable defaults supported by the Node ecosystem.
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
@@ -96,10 +99,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web'
-    },
-    root: [
-      paths.appSrc,
-    ],
+    }
   },
   // @remove-on-eject-begin
   // Resolve loaders (webpack plugins for CSS, images, transpilation) from the
@@ -163,10 +163,10 @@ module.exports = {
         }
       },
       // Font loaders
-      { test: /\.woff$/, loader: 'url?limit=65000&mimetype=application/font-woff&name=font/[name].[ext]' },
-      { test: /\.woff2$/, loader: 'url?limit=65000&mimetype=application/font-woff2&name=font/[name].[ext]' },
-      { test: /\.[ot]tf$/, loader: 'url?limit=65000&mimetype=application/octet-stream&name=font/[name].[ext]' },
-      { test: /\.eot$/, loader: 'url?limit=65000&mimetype=application/vnd.ms-fontobject&name=font/[name].[ext]' },
+      { test: /\.woff$/, loader: 'url-loader?limit=65000&mimetype=application/font-woff&name=font/[name].[ext]' },
+      { test: /\.woff2$/, loader: 'url-loader?limit=65000&mimetype=application/font-woff2&name=font/[name].[ext]' },
+      { test: /\.[ot]tf$/, loader: 'url-loader?limit=65000&mimetype=application/octet-stream&name=font/[name].[ext]' },
+      { test: /\.eot$/, loader: 'url-loader?limit=65000&mimetype=application/vnd.ms-fontobject&name=font/[name].[ext]' },
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
@@ -225,14 +225,51 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style', 'css?importLoaders=3!postcss!resolve-url-loader!sass?sourceMap')
-        // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+        use: [
+        'style-loader', {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 3
+          }
+        }, {
+          loader: 'postcss-loader',
+          options: {
+            ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+            plugins: function () {
+              return [
+                autoprefixer({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                  ]
+                })
+              ]
+            }
+          }
+        }, {
+          loader: 'resolve-url-loader',
+          options: {
+            sourceMap: true,
+            root: paths.appStyles,
+          }
+        }, {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true,
+            includePaths: [
+              paths.appStyles,
+              paths.appFonts,
+            ]
+          }
+        }]
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json-loader'
       },
       // "file" loader for svg
       {
@@ -244,18 +281,6 @@ module.exports = {
       }
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
-    ]
-  },
-  resolveLoader: {
-    fallback: path.resolve(__dirname + "/node_modules")
-  },
-  resolveUrlLoader: {
-    root: paths.appStyles,
-  },
-  sassLoader: {
-    includePaths: [
-      paths.appStyles,
-      paths.appFonts,
     ]
   },
   plugins: [
