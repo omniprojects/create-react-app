@@ -85,6 +85,7 @@ module.exports = {
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
+  appCNAME: resolveApp('CNAME'),
   ownNodeModules: resolveApp('node_modules'),
   nodePaths: nodePaths,
   publicUrl: getPublicUrl(resolveApp('package.json')),
@@ -109,6 +110,7 @@ module.exports = {
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
+  appCNAME: resolveApp('CNAME'),
   // this is empty with npm3 but node resolution searches higher anyway:
   ownNodeModules: resolveOwn('../node_modules'),
   nodePaths: nodePaths,
@@ -127,6 +129,7 @@ if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) 
     appSrc: resolveOwn('../template/src'),
     appStyles: resolveOwn('../template/src/styles'),
     appFonts: resolveOwn('../template/src/fonts'),
+    buildCNAME: resolveApp('../CNAME'),
     yarnLockFile: resolveOwn('../template/yarn.lock'),
     testsSetup: resolveOwn('../template/src/setupTests.js'),
     appNodeModules: resolveOwn('../node_modules'),
