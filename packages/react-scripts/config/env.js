@@ -38,7 +38,9 @@ function getClientEnvironment(publicUrl) {
       .reduce((env, key) => {
         env[key] = JSON.stringify(raw[key]);
         return env;
-      }, {})
+      }, {
+        'APP_VERSION': Date.now()
+      })
   };
 
   return { raw, stringified };
