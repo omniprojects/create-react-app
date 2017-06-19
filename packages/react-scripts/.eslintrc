@@ -35,6 +35,6 @@
     "react/no-danger": "off",
     "react/no-unescaped-entities": "off",
     "react/prefer-stateless-function": "off",
-    "react/sort-comp": "off",
+    "react/sort-comp": "off"
   }
 }
